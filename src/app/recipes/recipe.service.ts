@@ -9,23 +9,15 @@ import { Subject } from 'rxjs';
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes: Recipe[] = [
-    new Recipe(
-      'A Test Recipe', 'This is simply a test', 'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
-      [
-        new Ingredient('Meat', 1),
-        new Ingredient('French Fries', 5)
-    ]),
-    new Recipe(
-      'Another Test', 'This is simply a test', 'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
-      [
-        new Ingredient('Buns', 5),
-        new Ingredient('Meat', 3),
-
-    ])
-  ];
+  private recipes: Recipe[] = [];
 
   constructor(private shoppingListService: ShoppingListService){}
+
+
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
   onAddToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
